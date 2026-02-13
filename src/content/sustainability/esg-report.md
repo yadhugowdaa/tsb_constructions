@@ -1,8 +1,7 @@
 ---
 title: ESG Report
-coverImage: /images/uploads/gemini_generated_image_uhl02juhl02juhl0.png
-gallery:
-  - image: /images/uploads/gemini_generated_image_uhl02juhl02juhl0.png
+coverImage: /esg-report.png
+
 ---
 # Environmental Stewardship
 

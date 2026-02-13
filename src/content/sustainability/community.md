@@ -1,8 +1,7 @@
 ---
 title: Community Growth
-coverImage: /images/uploads/gemini_generated_image_5ugw7o5ugw7o5ugw.png
-gallery:
-  - image: /images/uploads/gemini_generated_image_5ugw7o5ugw7o5ugw.png
+coverImage: /community-growth.png
+
 ---
 # Empowering Local Communities
 

@@ -80,42 +80,42 @@ const iconColors = [
                 </div>
                 <div class="flex flex-row overflow-x-auto snap-x snap-mandatory gap-4 w-full h-[400px] px-2 pb-4 md:overflow-visible md:h-[500px] md:items-stretch md:justify-center md:gap-3">
                     <div class="card group snap-center shrink-0 w-[85vw] md:w-auto md:shrink">
-                        <img src="/images/uploads/2d-3d-hero.jpg" alt="2D & 3D Design" class="card-bg">
+                        <img src="/2d-3d-hero.png" alt="2D & 3D Design" class="card-bg scale-110">
                         <div class="card-content">
                             <h3 class="text-2xl font-bold uppercase drop-shadow-lg">2D & 3D Design</h3>
                             <p class="description">Architectural Planning & Modeling.</p>
                         </div>
                     </div>
                     <div class="card group snap-center shrink-0 w-[85vw] md:w-auto md:shrink">
-                        <img src="/images/uploads/elevation-hero.jpg" alt="ARC Elevation" class="card-bg">
+                        <img src="/elevation-hero.png" alt="ARC Elevation" class="card-bg scale-110">
                         <div class="card-content">
                             <h3 class="text-2xl font-bold uppercase drop-shadow-lg">ARC Elevation</h3>
                             <p class="description">Stunning Exterior Designs.</p>
                         </div>
                     </div>
                     <div class="card group snap-center shrink-0 w-[85vw] md:w-auto md:shrink">
-                        <img src="/images/uploads/stability-hero.jpg" alt="Stability Cert" class="card-bg">
+                        <img src="/stability-hero.png" alt="Stability Cert" class="card-bg scale-110">
                         <div class="card-content">
                             <h3 class="text-2xl font-bold uppercase drop-shadow-lg">Stability Cert</h3>
                             <p class="description">Structural Safety & Audit.</p>
                         </div>
                     </div>
                     <div class="card group snap-center shrink-0 w-[85vw] md:w-auto md:shrink">
-                        <img src="/images/uploads/pmc-hero.jpg" alt="PMC" class="card-bg">
+                        <img src="/pmc-hero.png" alt="PMC" class="card-bg scale-110">
                         <div class="card-content">
                             <h3 class="text-2xl font-bold uppercase drop-shadow-lg">PMC</h3>
                             <p class="description">Project Management Consultancy.</p>
                         </div>
                     </div>
                      <div class="card group snap-center shrink-0 w-[85vw] md:w-auto md:shrink">
-                        <img src="/images/uploads/estimation-hero.jpg" alt="Estimation" class="card-bg">
+                        <img src="/estimation-hero.png" alt="Estimation" class="card-bg scale-110">
                         <div class="card-content">
                             <h3 class="text-2xl font-bold uppercase drop-shadow-lg">Estimation</h3>
                             <p class="description">Costing & BOQ.</p>
                         </div>
                     </div>
                     <div class="card group snap-center shrink-0 w-[85vw] md:w-auto md:shrink">
-                        <img src="/images/uploads/real-estate-hero.jpg" alt="Real Estate" class="card-bg">
+                        <img src="/real-estate-hero.jpg" alt="Real Estate" class="card-bg scale-110">
                         <div class="card-content">
                             <h3 class="text-2xl font-bold uppercase drop-shadow-lg">Real Estate</h3>
                             <p class="description">Consultancy & Development.</p>
@@ -160,7 +160,7 @@ const iconColors = [
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {sustainabilityPosts.map((item) => (
                     <div class="relative group block overflow-hidden rounded-2xl h-[250px] md:h-[400px] shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
-                        <img src={item.data.coverImage} class="w-full h-full object-cover transition duration-700 group-hover:scale-110" alt={item.data.title}>
+                        <img src={item.data.coverImage} class="w-full h-full object-cover transition duration-700 scale-110 group-hover:scale-125" alt={item.data.title}>
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent flex flex-col justify-end p-6 md:p-8">
                             <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-hover:text-green-400 transition">{item.data.title}</h3>
                             <p class="text-white/70 text-sm font-bold opacity-0 group-hover:opacity-100 transition translate-y-4 group-hover:translate-y-0 flex items-center gap-1">
@@ -182,7 +182,7 @@ const iconColors = [
     .card { position: relative; border-radius: 1.5rem; overflow: hidden; transition: flex 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: flex; transform: translateZ(0); height: 100%; }
     @media (min-width: 768px) { .card { flex: 1; min-width: 60px; height: auto; } .card:hover { flex: 5; } }
     .card-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease, filter 0.5s ease; will-change: transform; filter: brightness(0.6); }
-    .card:hover .card-bg { transform: scale(1.1); filter: brightness(0.8); }
+    .card:hover .card-bg { transform: scale(1.2); filter: brightness(0.8); }
     .card-content { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 20; pointer-events: none; }
     .description { font-size: 0.9rem; margin-top: 0.5rem; color: #cbd5e1; transition: all 0.3s ease; }
     @media (max-width: 767px) { .description { opacity: 1; height: auto; } }

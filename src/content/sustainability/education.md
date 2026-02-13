@@ -1,8 +1,7 @@
 ---
 title: Education Initiatives
-coverImage: /images/uploads/gemini_generated_image_eqg379eqg379eqg3.png
-gallery:
-  - image: /images/uploads/gemini_generated_image_eqg379eqg379eqg3.png
+coverImage: /education-initiatives.png
+
 ---
 # Building Schools for the Future
 
