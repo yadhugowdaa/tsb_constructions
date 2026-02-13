@@ -1,0 +1,95 @@
+---
+import { getCollection } from 'astro:content';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+// Helper to get YouTube ID from URL
+function getYouTubeId(url) {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+}
+
+const videoId = getYouTubeId(entry.data.video);
+---
+
+<ServiceLayout 
+  title={entry.data.title} 
+  subtitle={entry.data.description}
+  bgImage={entry.data.image}
+>
+
+  <article class="max-w-4xl mx-auto mx-4 my-8 md:my-16 bg-slate-800 rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+      
+      <div class="h-[400px] w-full overflow-hidden relative">
+          <img src={entry.data.image} alt={entry.data.title} class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-800 to-transparent"></div>
+          <div class="absolute bottom-6 left-6 bg-green-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+            {entry.data.date.toDateString()}
+          </div>
+      </div>
+
+      <div class="p-8 md:p-12 prose prose-invert prose-lg max-w-none text-gray-300">
+          <Content />
+      </div>
+
+      {videoId && (
+          <div class="px-8 md:px-12 pb-12">
+              <h3 class="text-2xl font-bold text-white mb-6">Project Video</h3>
+              <div class="relative w-full pb-[56.25%] rounded-xl overflow-hidden border border-white/20 shadow-lg">
+                  <iframe 
+                      class="absolute top-0 left-0 w-full h-full"
+                      src={`https://www.youtube.com/embed/${videoId}`} 
+                      title="YouTube video player" 
+                      frameborder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowfullscreen>
+                  </iframe>
+              </div>
+          </div>
+      )}
+
+      {entry.data.gallery && entry.data.gallery.length > 0 && (
+        <div class="px-8 md:px-12 pb-12">
+            <h3 class="text-2xl font-bold text-white mb-6">Project Gallery</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {entry.data.gallery.map((item) => (
+                    <div class="rounded-xl overflow-hidden h-64 border border-white/10 hover:border-green-500 transition shadow-lg group">
+                        <img 
+                            src={item.image} 
+                            alt="Project Gallery" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+      )}
+
+      <div class="p-8 border-t border-white/10 bg-slate-900/50">
+          <a href="/projects" class="text-gray-400 hover:text-white transition font-bold flex items-center gap-2">
+              ← Back to All Projects
+          </a>
+      </div>
+
+  </article>
+
+</ServiceLayout>
+
+<style is:global>
+  article h1 { font-size: 2.5rem; font-weight: bold; color: white; margin-bottom: 1rem; }
+  article h2 { font-size: 1.8rem; font-weight: bold; color: white; margin-top: 2rem; margin-bottom: 1rem; }
+  article p { margin-bottom: 1.5rem; line-height: 1.8; }
+  article ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; }
+  article img { border-radius: 1rem; margin-top: 1.5rem; margin-bottom: 1.5rem; width: 100%; }
+</style>

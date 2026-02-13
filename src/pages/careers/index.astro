@@ -1,0 +1,36 @@
+---
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import { getCollection } from 'astro:content';
+
+const jobs = await getCollection('careers');
+const sortedJobs = jobs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<ServiceLayout title="Careers" subtitle="Join our mission for a greener world." bgImage="/images/hero-bg.jpg">
+    <div class="max-w-5xl mx-auto px-6 py-16">
+        
+        <h2 class="text-3xl font-bold text-slate-900 mb-10 text-center">Open Positions</h2>
+
+        <div class="grid gap-6">
+            {sortedJobs.map((job) => (
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">{job.data.title}</h3>
+                        <div class="flex gap-4 mt-2 text-sm text-slate-500">
+                            <span class="flex items-center gap-1">📍 {job.data.location}</span>
+                            <span class="flex items-center gap-1">💼 {job.data.type}</span>
+                            {job.data.salary && <span class="flex items-center gap-1">💰 {job.data.salary}</span>}
+                        </div>
+                    </div>
+                    <a href={`/careers/${job.slug}`} class="mt-4 md:mt-0 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-bold transition">
+                        View Details
+                    </a>
+                </div>
+            ))}
+        </div>
+
+        {sortedJobs.length === 0 && (
+            <p class="text-center text-gray-500 py-10">No open positions at the moment. Please check back later.</p>
+        )}
+    </div>
+</ServiceLayout>

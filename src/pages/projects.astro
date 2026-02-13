@@ -1,0 +1,50 @@
+---
+import ServiceLayout from '../layouts/ServiceLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<ServiceLayout 
+  title="Our Portfolio" 
+  subtitle="A showcase of our commitment to a greener future."
+  bgImage="/images/hero-bg.jpg"
+>
+
+  <div class="max-w-7xl mx-auto px-6 py-12 md:py-20">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sortedProjects.map((project) => (
+              <a href={`/projects/${project.slug}`} class="group relative block overflow-hidden rounded-xl bg-slate-800 border border-white/5 cursor-pointer shadow-lg hover:shadow-green-900/20 transition-all duration-300 hover:-translate-y-2">
+                  
+                  <div class="h-64 overflow-hidden">
+                      <img src={project.data.image} alt={project.data.title} class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition duration-700" />
+                  </div>
+                  
+                  <div class="p-6">
+                      <span class="inline-block px-3 py-1 text-xs font-bold text-green-400 bg-green-900/30 rounded-full mb-3 uppercase tracking-wider">
+                          {project.data.category}
+                      </span>
+                      
+                      <h3 class="text-xl font-bold text-white mb-2">{project.data.title}</h3>
+                      <p class="text-sm text-gray-400 line-clamp-2">{project.data.description}</p>
+                      
+                      <p class="text-green-400 text-xs font-bold mt-4 group-hover:underline flex items-center gap-1">
+                          View Project Details <span>→</span>
+                      </p>
+                  </div>
+
+              </a>
+          ))}
+      </div>
+
+      {sortedProjects.length === 0 && (
+          <div class="text-center py-20">
+              <p class="text-gray-500 text-lg">No projects added to the database yet.</p>
+          </div>
+      )}
+
+  </div>
+
+</ServiceLayout>

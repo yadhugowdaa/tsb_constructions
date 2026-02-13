@@ -1,0 +1,52 @@
+{
+  "hero": {
+    "title": "Building Dreams, Engineering Reality",
+    "subtitle": "Your trusted partner for 2D/3D Designs, Elevation, Stability Certification, PMC, and Real Estate Consultancy."
+  },
+  "stats": [
+    {
+      "number": "500+",
+      "label": "Designs Delivered"
+    },
+    {
+      "number": "100%",
+      "label": "Quality Assurance"
+    },
+    {
+      "number": "50+",
+      "label": "PMC Projects"
+    },
+    {
+      "number": "20+",
+      "label": "Years of Trust"
+    },
+    {
+      "number": "ISO",
+      "label": "Certified Process"
+    },
+    {
+      "number": "24/7",
+      "label": "Client Support"
+    }
+  ],
+  "leader": {
+    "name": "Managing Director",
+    "role": "TSB Constructions",
+    "image": "/images/logo.jpg",
+    "message": "At TSB Constructions, we don't just build structures; we build relationships. Our commitment to quality, transparency, and innovation drives us to deliver the best for our clients."
+  },
+  "sustainability_images": [
+    {
+      "title": "Modern Architecture",
+      "image": "/images/uploads/elevation.jpg"
+    },
+    {
+      "title": "Structural Integrity",
+      "image": "/images/uploads/construction.jpg"
+    },
+    {
+      "title": "Interior Design",
+      "image": "/images/uploads/interior.jpg"
+    }
+  ]
+}

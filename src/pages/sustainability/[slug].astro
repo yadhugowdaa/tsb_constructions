@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from 'astro:content';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('sustainability');
+  return posts.map(entry => {
+    // FIX: Generate clean slug from ID (Astro 5 compatible)
+    const slug = entry.id.replace(/\.[^/.]+$/, ""); 
+    return {
+      params: { slug }, 
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<ServiceLayout 
+  title={entry.data.title} 
+  subtitle="Sustainability & Us"
+  bgImage={entry.data.coverImage}
+>
+
+  <div class="max-w-4xl mx-auto px-6 py-12 md:py-20 font-sans">
+      
+      <article class="prose prose-lg prose-slate max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-a:text-green-600 prose-img:rounded-xl mb-12">
+          <Content />
+      </article>
+
+      {/* GALLERY SECTION */}
+      {entry.data.gallery && entry.data.gallery.length > 0 && (
+          <div class="border-t border-gray-200 pt-12">
+              <h3 class="text-2xl font-bold text-slate-900 mb-6">Gallery</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {entry.data.gallery.map((item) => {
+                      // 1. NORMALIZE: Handle both Object ({image: '...'}) and String ('...')
+                      let imgSrc = typeof item === 'string' ? item : item.image;
+
+                      // 2. SANITIZE: Remove 'public/' prefix if it exists
+                      if (imgSrc.startsWith('public/')) {
+                          imgSrc = imgSrc.replace('public/', '/');
+                      }
+                      
+                      return (
+                          <div class="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-500">
+                              <img src={imgSrc} class="w-full h-64 object-cover" alt="Gallery Image" />
+                          </div>
+                      );
+                  })}
+              </div>
+          </div>
+      )}
+
+      <div class="mt-12 pt-8 border-t border-gray-200">
+          <a href="/#sustainability" class="text-green-600 font-bold hover:underline flex items-center gap-2">
+              <span>←</span> Back to Home
+          </a>
+      </div>
+
+  </div>
+</ServiceLayout>

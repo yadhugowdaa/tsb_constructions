@@ -1,0 +1,147 @@
+# Enable local backend for testing on localhost
+local_backend: true
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Where images uploaded by Admin will be saved
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # 1. PROJECTS COLLECTION
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Category", name: "category", widget: "select", options: ["farmers", "ht-lt", "solar", "cctv", "ro-plants", "lighting"]}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Main Project Image", name: "image", widget: "image"}
+      
+      # UPDATED: Gallery now accepts Files (Images OR Videos)
+      - label: "Project Gallery (Photos & Videos)"
+        name: "gallery"
+        widget: "list"
+        fields:
+          - {label: "Media File", name: "image", widget: "file"}
+
+      - {label: "YouTube Video URL (Optional)", name: "video", widget: "string", required: false}
+      - {label: "Short Description", name: "description", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  # 2. SERVICES COLLECTION
+  - name: "services"
+    label: "Services Pages"
+    folder: "src/content/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Service Title", name: "title", widget: "string"}
+      - {label: "Hero Image", name: "heroImage", widget: "image"}
+      - {label: "Main Description", name: "body", widget: "markdown"}
+      
+      # UPDATED: Gallery now accepts Files (Images OR Videos)
+      - label: "Photo & Video Gallery"
+        name: "gallery"
+        widget: "list"
+        fields:
+          - {label: "Media File", name: "image", widget: "file"}
+
+  # 3. SUSTAINABILITY COLLECTION
+  - name: "sustainability"
+    label: "Sustainability Posts"
+    folder: "src/content/sustainability"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Cover Image", name: "coverImage", widget: "image"}
+      - {label: "Full Content Body", name: "body", widget: "markdown"}
+      
+      # UPDATED: Gallery now accepts Files (Images OR Videos)
+      - label: "Photo & Video Gallery"
+        name: "gallery"
+        widget: "list"
+        fields:
+          - {label: "Media File", name: "image", widget: "file"}
+
+  # 4. CAREERS COLLECTION
+  - name: "careers"
+    label: "Careers (Jobs)"
+    folder: "src/content/careers"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Job Title", name: "title", widget: "string"}
+      - {label: "Location", name: "location", widget: "string", default: "New Delhi, India"}
+      - {label: "Job Type", name: "type", widget: "select", options: ["Full Time", "Part Time", "Contract", "Internship"]}
+      - {label: "Salary Range", name: "salary", widget: "string", required: false}
+      - {label: "Date Posted", name: "date", widget: "datetime"}
+      - {label: "Job Description & How to Apply", name: "body", widget: "markdown"}
+
+  # 5. SITE SETTINGS
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      # A. HOMEPAGE SETTINGS
+      - name: "homepage_content"
+        label: "Homepage Content"
+        file: "src/data/homepage.json"
+        fields:
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Main Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "string"}
+          
+          - label: "Impact Stats"
+            name: "stats"
+            widget: "list"
+            fields:
+              - {label: "Big Number (e.g., 50GW)", name: "number", widget: "string"}
+              - {label: "Label (e.g., Capacity)", name: "label", widget: "string"}
+
+          - label: "Leadership (Founder)"
+            name: "leader"
+            widget: "object"
+            fields:
+              - {label: "Name", name: "name", widget: "string"}
+              - {label: "Job Title", name: "role", widget: "string"}
+              - {label: "Photo", name: "image", widget: "image"}
+              - {label: "Message/Quote", name: "message", widget: "text"}
+
+      # B. ABOUT US PAGE SETTINGS
+      - name: "about_page"
+        label: "About Us Page"
+        file: "src/data/about.json"
+        fields:
+          - {label: "Headline", name: "title", widget: "string"}
+          - {label: "Hero Image", name: "image", widget: "image"}
+          - {label: "Main Story (About Us)", name: "story", widget: "markdown"}
+          - {label: "Our Vision", name: "vision", widget: "text"}
+          - {label: "Our Mission", name: "mission", widget: "text"}
+
+      # C. CONTACT & SOCIALS
+      - name: "contact_info"
+        label: "Contact & Social Media"
+        file: "src/data/contact.json"
+        fields:
+          - {label: "Physical Address", name: "address", widget: "text"}
+          - {label: "Phone Number", name: "phone", widget: "string"}
+          - {label: "Email Address", name: "email", widget: "string"}
+          - {label: "WhatsApp Number (No spaces/symbols)", name: "whatsapp", widget: "string"}
+          - {label: "Google Maps Embed Link", name: "map_embed", widget: "text"}
+          
+          - label: "Social Media Links"
+            name: "socials"
+            widget: "object"
+            fields:
+              - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+              - {label: "Twitter/X URL", name: "twitter", widget: "string", required: false}
+              - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+              - {label: "LinkedIn URL", name: "linkedin", widget: "string", required: false}

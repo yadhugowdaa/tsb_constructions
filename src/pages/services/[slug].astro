@@ -1,0 +1,186 @@
+---
+import { getCollection, render } from 'astro:content';
+// The Image component is no longer needed in the body
+// import { Image } from 'astro:assets'; 
+import ServiceLayout from '../../layouts/ServiceLayout.astro'; 
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map(entry => {
+    // Clean up URL slug
+    const slug = entry.id.replace(/\.[^/.]+$/, "");
+    return {
+      params: { slug }, 
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// HELPER: Handle varied image variable names
+const mainImage = entry.data.heroImage || entry.data.image;
+---
+
+{/* UPDATE: Pass the mainImage to the layout's bgImage prop */}
+<ServiceLayout title={entry.data.title} bgImage={mainImage}>
+  <main class="service-container max-w-6xl mx-auto px-4 py-12">
+    
+    {/* HEADER SECTION */}
+    <div class="mb-12">
+      {/* REMOVED: The H1 title is now in the hero header in the layout */}
+      
+      <div class="text-xl text-gray-600 mb-8">
+        {entry.data.description && <p>{entry.data.description}</p>}
+      </div>
+      
+      {/* REMOVED: The main image block is removed because it's now the background */}
+    </div>
+
+    {/* CONTENT BODY */}
+    <article class="prose prose-lg max-w-none text-gray-700 mb-16">
+      <Content />
+    </article>
+
+    {/* GALLERY SECTION (Unchanged) */}
+    {entry.data.gallery && entry.data.gallery.length > 0 && (
+      <section class="border-t pt-12">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-1.5 h-8 bg-green-600 rounded-full"></div> 
+          <h2 class="text-3xl font-bold text-gray-900">Project Gallery</h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {entry.data.gallery.map((item, index) => {
+            // 1. Get raw path & Sanitize
+            let mediaSrc = item.image ? item.image : item;
+            if (!mediaSrc) return null;
+
+            if (typeof mediaSrc === 'string') {
+              if (mediaSrc.startsWith('public/')) {
+                mediaSrc = mediaSrc.replace(/^public\//, '/');
+              } else if (!mediaSrc.startsWith('/')) {
+                mediaSrc = '/' + mediaSrc;
+              }
+            }
+
+            // 2. Detect Video
+            const isVideo = typeof mediaSrc === 'string' && 
+                            mediaSrc.toLowerCase().match(/\.(mp4|webm|ogg|mov)$/);
+
+            return (
+              <div 
+                class="group relative bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer aspect-square"
+                onclick={`openModal('${mediaSrc}', ${isVideo ? 'true' : 'false'})`}
+              >
+                {/* Overlay Icon to indicate clickability */}
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all z-10 flex items-center justify-center">
+                  <span class="text-white opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all">
+                    {isVideo ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+                    )}
+                  </span>
+                </div>
+
+                {/* Thumbnail Display */}
+                {isVideo ? (
+                  <video 
+                    class="w-full h-full object-cover pointer-events-none" 
+                    muted 
+                    playsinline
+                  >
+                    <source src={mediaSrc} type={`video/${String(mediaSrc).split('.').pop()}`} />
+                  </video>
+                ) : (
+                  <img 
+                    src={mediaSrc} 
+                    alt={`Gallery ${index}`}
+                    class="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
+    {/* CTA BUTTON */}
+    <div class="flex justify-center mt-16">
+      <a href="/contact" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-10 rounded-full shadow-lg transition transform hover:-translate-y-1">
+        Get a Quote
+      </a>
+    </div>
+
+  </main>
+
+  {/* --- FULLSCREEN MODAL (POPUP) --- (Unchanged) */}
+  <div id="gallery-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-95 flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeModal()">
+    
+    {/* Close Button */}
+    <button class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300 focus:outline-none z-50" onclick="closeModal()">&times;</button>
+    
+    {/* Modal Content Container */}
+    <div class="relative w-full h-full flex items-center justify-center" onclick="event.stopPropagation()">
+      
+      {/* Image Container */}
+      <img id="modal-image" class="hidden max-h-[90vh] max-w-[90vw] object-contain rounded-md shadow-2xl" src="" alt="Full view" />
+      
+      {/* Video Container */}
+      <video id="modal-video" class="hidden max-h-[90vh] max-w-[90vw] object-contain rounded-md shadow-2xl" controls autoplay>
+        <source id="modal-video-source" src="" type="video/mp4" />
+      </video>
+
+    </div>
+  </div>
+
+</ServiceLayout>
+
+{/* --- SCRIPTS --- (Unchanged) */}
+<script is:inline>
+  // Function to Open Modal
+  function openModal(src, isVideo) {
+    const modal = document.getElementById('gallery-modal');
+    const imgEl = document.getElementById('modal-image');
+    const vidEl = document.getElementById('modal-video');
+    const vidSrc = document.getElementById('modal-video-source');
+
+    // Show Modal
+    modal.classList.remove('hidden');
+
+    if (isVideo) {
+      // Setup Video
+      imgEl.classList.add('hidden');
+      vidEl.classList.remove('hidden');
+      vidSrc.src = src;
+      vidEl.load(); // Reload video source
+      vidEl.play().catch(e => console.log("Auto-play prevented"));
+    } else {
+      // Setup Image
+      vidEl.classList.add('hidden');
+      vidEl.pause();
+      imgEl.classList.remove('hidden');
+      imgEl.src = src;
+    }
+  }
+
+  // Function to Close Modal
+  function closeModal() {
+    const modal = document.getElementById('gallery-modal');
+    const vidEl = document.getElementById('modal-video');
+    
+    modal.classList.add('hidden');
+    vidEl.pause(); // Stop video sound when closing
+    vidEl.currentTime = 0;
+  }
+
+  // Close on Escape Key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  });
+</script>

@@ -1,0 +1,22 @@
+{
+  "title": "About TSB Constructions",
+  "description": "TSB Constructions and Developers is a premier construction and real estate consultancy firm in India. We specialize in turning dreams into reality with our comprehensive range of services including 2D & 3D Design, Elevation, Structural Stability Certification, Project Management Consultancy (PMC), and precise Estimation.",
+  "mission": {
+    "title": "Our Mission",
+    "description": "To deliver excellence in every project through innovative design, robust engineering, and transparent management, ensuring total client satisfaction."
+  },
+  "stats": [
+    {
+      "label": "Years Experience",
+      "value": "15+"
+    },
+    {
+      "label": "Projects Completed",
+      "value": "200+"
+    },
+    {
+      "label": "Certified Engineers",
+      "value": "25+"
+    }
+  ]
+}
