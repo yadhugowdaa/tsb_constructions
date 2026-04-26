@@ -1,36 +1,29 @@
 ---
 import ServiceLayout from '../../layouts/ServiceLayout.astro';
-import { getCollection } from 'astro:content';
-
-const jobs = await getCollection('careers');
-const sortedJobs = jobs.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<ServiceLayout title="Careers" subtitle="Join our mission for a greener world." bgImage="/images/hero-bg.jpg">
-    <div class="max-w-5xl mx-auto px-6 py-16">
-        
-        <h2 class="text-3xl font-bold text-slate-900 mb-10 text-center">Open Positions</h2>
+<ServiceLayout title="Careers" subtitle="Build your future with TSB Constructions." bgImage="/hero section.jpg">
+    <div class="max-w-3xl mx-auto px-6 py-20 md:py-28 text-center">
 
-        <div class="grid gap-6">
-            {sortedJobs.map((job) => (
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center">
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-900">{job.data.title}</h3>
-                        <div class="flex gap-4 mt-2 text-sm text-slate-500">
-                            <span class="flex items-center gap-1">📍 {job.data.location}</span>
-                            <span class="flex items-center gap-1">💼 {job.data.type}</span>
-                            {job.data.salary && <span class="flex items-center gap-1">💰 {job.data.salary}</span>}
-                        </div>
-                    </div>
-                    <a href={`/careers/${job.slug}`} class="mt-4 md:mt-0 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-bold transition">
-                        View Details
-                    </a>
-                </div>
-            ))}
+        <div class="bg-white rounded-3xl shadow-lg border border-slate-100 p-10 md:p-16">
+            <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-8">
+                <svg class="w-10 h-10 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">We're Not Hiring Right Now</h2>
+            <p class="text-slate-500 text-lg leading-relaxed mb-8 max-w-md mx-auto">
+                At present, we do not have any open positions. Please check back later for future opportunities.
+            </p>
+
+            <div class="h-px bg-slate-100 my-8"></div>
+
+            <p class="text-sm text-slate-400">
+                Have questions? Reach us at
+                <a href="mailto:office@tsbconstructions.com" class="text-orange-600 hover:text-orange-700 font-semibold transition">office@tsbconstructions.com</a>
+            </p>
         </div>
 
-        {sortedJobs.length === 0 && (
-            <p class="text-center text-gray-500 py-10">No open positions at the moment. Please check back later.</p>
-        )}
     </div>
 </ServiceLayout>
